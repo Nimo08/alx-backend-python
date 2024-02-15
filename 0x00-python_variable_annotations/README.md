@@ -1,0 +1,1 @@
+This directory contains scripts for the tasks in 0x00-python_variable_annotations.
