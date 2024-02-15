@@ -1,0 +1,1 @@
+This repository contains Python scripts for projects done in ALX Backend Specialization.
