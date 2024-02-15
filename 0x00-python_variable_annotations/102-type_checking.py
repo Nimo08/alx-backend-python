@@ -5,17 +5,16 @@ apply any necessary changes.
 """
 
 
-import typing
+from typing import Tuple, List
 
 
-def zoom_array(lst: typing.Tuple, factor: int = 2) -> \
-                typing.List[typing.Any]:
+def zoom_array(lst: Tuple, factor: int = 2) -> List:
     """
     Takes a tuple 'lst' and an integer 'factor' and returns
     a list containing each element of the tuple duplicated
     'factor' times.
     """
-    zoomed_in: typing.List[typing.Any] = [
+    zoomed_in: List = [
         item for item in lst
         for i in range(factor)
     ]
