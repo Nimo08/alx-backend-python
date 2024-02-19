@@ -10,8 +10,7 @@ import typing
 task_wait_random = __import__('3-tasks').task_wait_random
 
 
-async def task_wait_n(n: int, max_delay: int) -> \
-                        typing.List[float]:
+async def task_wait_n(n: int, max_delay: int) -> typing.List[float]:
     """
     Return the list of all the delays (float values).
     The list of the delays should be in ascending order without using sort()
@@ -19,7 +18,7 @@ async def task_wait_n(n: int, max_delay: int) -> \
     """
     delays = []
     for _ in range(n):
-        delay = await task_wait_random(max_delay)
-        delays.append(delay)
+        delay = await asyncio.gather(task_wait_random(max_delay))
+        delays.append(delay[0])
         sorted_delays = sorted(delays)
     return sorted_delays
