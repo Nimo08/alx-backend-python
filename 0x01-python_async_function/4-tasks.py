@@ -7,6 +7,7 @@ The code is nearly identical to wait_n except task_wait_random is being called.
 
 import asyncio
 import typing
+import random
 task_wait_random = __import__('3-tasks').task_wait_random
 
 
