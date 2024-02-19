@@ -17,9 +17,7 @@ async def task_wait_n(n: int, max_delay: int) -> typing.List[float]:
     because of concurrency.
     """
     delays = []
-    tasks = []
-    for _ in range(n):
-        tasks.append(task_wait_random(max_delay))
+    tasks = [task_wait_random(max_delay) for _ in range(n)]
     # Takes a list of tasks and yields futures as they complete
     for future in asyncio.as_completed(tasks):
         # Suspends execution of coroutine until future completes
