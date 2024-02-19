@@ -17,10 +17,8 @@ async def task_wait_n(n: int, max_delay: int) -> typing.List[float]:
     because of concurrency.
     """
     delays = []
-    futures = [task_wait_random(max_delay) for _ in range(n)]
-    # Takes a list of tasks and yields futures as they complete
-    for future in futures:
-        delay = await future
+    for _ in range(n):
+        delay = await task_wait_random(max_delay)
         delays.append(delay)
-    sorted_delays = sorted(delays)
+        sorted_delays = sorted(delays)
     return sorted_delays
