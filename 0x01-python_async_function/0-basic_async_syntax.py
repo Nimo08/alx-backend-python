@@ -12,7 +12,7 @@ import random
 import typing
 
 
-async def wait_random(max_delay: typing.Union[int, float] = 10) \
+async def wait_random(max_delay: int = 10) \
                             -> typing.Union[int, float]:
     """
     Waits for a random delay between 0 and max_delay
