@@ -21,8 +21,9 @@ async def wait_n(n: int, max_delay: int) -> typing.List[float]:
     because of concurrency.
     """
     delays = []
-    for _ in range(n):
-        delay = await wait_random(max_delay)
+    tasks = [wait_random(max_delay) for _ in range(n)]
+    for task in asyncio.as_completed(tasks):
+        delay = await task
         delays.append(delay)
-        sorted_delays = sorted(delays)
-    return sorted_delays
+
+    return delays
