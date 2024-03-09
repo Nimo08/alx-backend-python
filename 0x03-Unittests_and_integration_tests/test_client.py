@@ -83,6 +83,11 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         cls.mock_get.return_value.json.side_effect = [cls.org_payload,
                                                       cls.repos_payload]
 
+    @classmethod
+    def tearDownClass(cls):
+        """Tear down class"""
+        cls.get_patcher.stop()
+
     def test_public_repos(self):
         """Test case: public repos"""
         client = GithubOrgClient("Google")
@@ -93,11 +98,6 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
         client = GithubOrgClient("Google")
         self.assertEqual(client.public_repos(license="apache-2.0"),
                          self.apache2_repos)
-
-    @classmethod
-    def tearDownClass(cls):
-        """Tear down class"""
-        cls.get_patcher.stop()
 
 
 if __name__ == "__main__":
