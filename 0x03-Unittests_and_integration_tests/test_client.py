@@ -8,10 +8,11 @@ Integration test: fixtures
 """
 
 import unittest
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch, PropertyMock, Mock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
+from requests import HTTPError
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -78,10 +79,22 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """Set up class"""
-        cls.get_patcher = patch("requests.get")
-        cls.mock_get = cls.get_patcher.start()
-        cls.mock_get.return_value.json.side_effect = [cls.org_payload,
-                                                      cls.repos_payload]
+        payload_dict = {
+            'https://api.github.com/orgs/google': cls.org_payload,
+            'https://api.github.com/orgs/google/repos': cls.repos_payload,
+        }
+
+        def find_payload(url):
+            """
+            Return corresponding payload data if the URL is found in the
+            payload dictionary
+            """
+            if url in payload_dict:
+                return Mock(**{'json.return_value': payload_dict[url]})
+            return HTTPError
+        # When requests.get is called, find_payload is invoked instead
+        cls.get_patcher = patch("requests.get", side_effect=find_payload)
+        cls.get_patcher.start()
 
     @classmethod
     def tearDownClass(cls):
